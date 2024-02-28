@@ -27,6 +27,9 @@ public class Booking {
     @ManyToOne
     @JoinColumn(name = "contact_info_id",referencedColumnName = "id")
     private ContactInfo contactInfo;
+    @ManyToOne
+    @JoinColumn(name = "passenger_info_id",referencedColumnName = "id")
+    private ContactInfo passengerInfo;
     private LocalDateTime bookingDate;
     private boolean paymentStatus;
 }

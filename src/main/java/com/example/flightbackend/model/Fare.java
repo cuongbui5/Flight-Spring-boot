@@ -19,6 +19,7 @@ public class Fare {
     @ManyToOne
     @JoinColumn(name = "flight_id",referencedColumnName = "id")
     private Flight flight;
+    @Enumerated(EnumType.STRING)
     private FareClass fareClass;
     private Double price;
 
