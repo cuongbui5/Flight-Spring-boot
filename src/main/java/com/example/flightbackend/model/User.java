@@ -1,17 +1,18 @@
 package com.example.flightbackend.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Table(name = "users")
+@Table(name = "users",
+        uniqueConstraints = {
+        @UniqueConstraint(columnNames = { "username"})
+})
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
