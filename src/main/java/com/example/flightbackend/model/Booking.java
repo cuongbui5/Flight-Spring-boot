@@ -1,10 +1,7 @@
 package com.example.flightbackend.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,5 +29,6 @@ public class Booking {
     @JoinColumn(name = "passenger_info_id",referencedColumnName = "id")
     private ContactInfo passengerInfo;
     private LocalDateTime bookingDate;
+    private String bookingCode;
     private boolean paymentStatus;
 }

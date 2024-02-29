@@ -32,6 +32,11 @@ public class Flight {
     private String aircraftType;
     private Integer duration;
     private Integer stops;
-
+    @PrePersist
+    public void validateDates() {
+        if (arrivalDate != null && arrivalDate.isBefore(departureDate)) {
+            throw new IllegalStateException("arrivalDate must be after departureDate");
+        }
+    }
 
 }

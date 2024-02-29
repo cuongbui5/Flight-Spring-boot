@@ -23,4 +23,5 @@ public class Fare {
     private FareClass fareClass;
     private Double price;
 
+
 }
