@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookingController {
     private final BookingService bookingService;
 
-    @PostMapping("/booking")
+    @PostMapping("/create")
     public ResponseEntity<?> booking(@RequestBody BookingRequest bookingRequest){
         return ResponseEntity.status(HttpStatus.CREATED).body(
           bookingService.booking(bookingRequest)

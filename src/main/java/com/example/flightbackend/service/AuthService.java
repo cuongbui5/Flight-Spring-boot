@@ -12,6 +12,7 @@ import com.example.flightbackend.exception.WrongPassword;
 import com.example.flightbackend.model.Role;
 import com.example.flightbackend.model.User;
 import com.example.flightbackend.repository.UserRepository;
+import com.example.flightbackend.util.Constant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -21,9 +22,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +34,7 @@ public class AuthService {
     private final JwtService jwtService;
     private final CustomUserDetailsService customUserDetailsService;
 
-    public void register(RegisterRequest registerRequest) {
+    public MessageResponse register(RegisterRequest registerRequest) {
         if(userRepository.existsByUsername(registerRequest.getUsername())){
             throw new AlreadyExistException("Username has been registered!");
         }
@@ -44,6 +44,7 @@ public class AuthService {
                 .role(Role.USER)
                 .build();
         userRepository.save(user);
+        return new MessageResponse(Constant.STATUS_OK,Constant.REGISTER_OK);
 
 
 

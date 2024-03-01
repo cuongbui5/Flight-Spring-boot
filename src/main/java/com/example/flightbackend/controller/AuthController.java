@@ -2,6 +2,7 @@ package com.example.flightbackend.controller;
 
 import com.example.flightbackend.dto.request.LoginRequest;
 import com.example.flightbackend.dto.request.RegisterRequest;
+import com.example.flightbackend.dto.response.LoginResponse;
 import com.example.flightbackend.dto.response.MessageResponse;
 import com.example.flightbackend.service.AuthService;
 import com.example.flightbackend.util.Constant;
@@ -21,16 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final AuthService authService;
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody @Valid RegisterRequest registerRequest){
-        authService.register(registerRequest);
+    public ResponseEntity<MessageResponse> register(@RequestBody @Valid RegisterRequest registerRequest){
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                new MessageResponse(Constant.STATUS_OK,Constant.REGISTER_OK)
+                authService.register(registerRequest)
         );
 
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody @Valid LoginRequest loginRequest, HttpServletResponse response) {
+    public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest loginRequest, HttpServletResponse response) {
         return ResponseEntity.ok()
                 .body(authService.login(loginRequest));
     }
