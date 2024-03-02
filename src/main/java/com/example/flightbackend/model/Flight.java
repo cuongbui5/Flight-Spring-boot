@@ -1,12 +1,8 @@
 package com.example.flightbackend.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 @Entity
 @Table(name = "flights")
@@ -14,6 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
