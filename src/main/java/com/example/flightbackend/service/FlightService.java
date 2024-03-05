@@ -3,12 +3,13 @@ package com.example.flightbackend.service;
 import com.example.flightbackend.dto.request.CreateFlightRequest;
 import com.example.flightbackend.model.Airline;
 import com.example.flightbackend.model.Airport;
-import com.example.flightbackend.model.FareClass;
 import com.example.flightbackend.model.Flight;
 import com.example.flightbackend.repository.AirlineRepository;
 import com.example.flightbackend.repository.AirportRepository;
 import com.example.flightbackend.repository.FlightRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -62,7 +63,7 @@ public class FlightService {
         return flightRepository.save(flight);
     }
 
-    public List<Flight> getFlightsByJoinTables(String city1, String city2, LocalDateTime date1, FareClass fareClass){
-        return flightRepository.getFlightsByJoinTables(city1, city2,date1,fareClass);
+    public Page<Flight> getFlightsByJoinTables(Long id1, Long id2, LocalDateTime date1, Integer pageNumber, Integer pageSize){
+        return flightRepository.getFlightsByJoinTables(id1, id2,date1, PageRequest.of(pageNumber, pageSize));
     }
 }

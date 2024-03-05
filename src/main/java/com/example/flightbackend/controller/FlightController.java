@@ -2,10 +2,10 @@ package com.example.flightbackend.controller;
 
 import com.example.flightbackend.dto.request.CreateFlightRequest;
 import com.example.flightbackend.dto.response.CreateFlightResponse;
-import com.example.flightbackend.model.FareClass;
 import com.example.flightbackend.model.Flight;
 import com.example.flightbackend.service.FlightService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
-@RequestMapping("flights")
+@RequestMapping("api/flights")
 @RequiredArgsConstructor
 public class FlightController {
     private final FlightService flightService;
@@ -30,31 +30,16 @@ public class FlightController {
     }
 
 
-    //"/find/departure={city1}&arrival={city2}&departureDate={date1}&arrivalDate={date2}&fareClass={fareClass}&page={pageNumber}&size={pageSize}"
-    @GetMapping("/find/arrival={city1}&departure={city2}&departureDate={date1}&fareClass={fareClass}")
-    public List<Flight> getFlightsByJoinTables(@PathVariable("city1") String city1,
-                                               @PathVariable("city2") String city2,
+    @GetMapping("/find/arrival={id1}&departure={id2}&departureDate={date1}&page={pageNumber}&size={pageSize}")
+    public Page<Flight> getFlightsByJoinTables(@PathVariable("id1") Long id1,
+                                               @PathVariable("id2") Long id2,
                                                @PathVariable("date1") String date1,
-                                               @PathVariable("fareClass") String fareClass
-//                                               @PathVariable("pageNumber") Integer pageNumber,
-//                                               @PathVariable("pageSize") Integer pageSize)
-    ){
-        FareClass fareClassTemp = null;
-        System.out.println(FareClass.Economy.name());
-        if(FareClass.Economy.name().equals(fareClass)) {
-            fareClassTemp = FareClass.Economy;
-        }else if(FareClass.Business.name().equals(fareClass)){
-            fareClassTemp = FareClass.Business;
-        }else {
-            fareClassTemp = FareClass.FirstClass;
-       }
-
+                                               @PathVariable("pageNumber") Integer pageNumber,
+                                               @PathVariable("pageSize") Integer pageSize)
+    {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
 
-        System.out.println("departure: " + city1 + " arrival: " +
-                city2 + " departure_date: " + date1);
-
-        return flightService.getFlightsByJoinTables(city1,city2,LocalDateTime.parse(date1, formatter),fareClassTemp);
+        return flightService.getFlightsByJoinTables(id1,id2,LocalDateTime.parse(date1, formatter),pageNumber,pageSize);
 
     }
 
