@@ -1,12 +1,15 @@
 package com.example.flightbackend.dto.response;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
+@ToString
 public class CreateFlightResponse {
     private Long id;
     private Long airlineId;

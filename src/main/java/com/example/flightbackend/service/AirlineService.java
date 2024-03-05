@@ -16,4 +16,8 @@ public class AirlineService {
     public List<Airline> getAllAirline(){
         return airlineRepository.findAll();
     }
+
+    public Airline createAirline(Airline airline){
+        return airlineRepository.save(airline);
+    }
 }

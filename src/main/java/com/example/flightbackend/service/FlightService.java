@@ -3,15 +3,15 @@ package com.example.flightbackend.service;
 import com.example.flightbackend.dto.request.CreateFlightRequest;
 import com.example.flightbackend.model.Airline;
 import com.example.flightbackend.model.Airport;
+import com.example.flightbackend.model.FareClass;
 import com.example.flightbackend.model.Flight;
 import com.example.flightbackend.repository.AirlineRepository;
 import com.example.flightbackend.repository.AirportRepository;
 import com.example.flightbackend.repository.FlightRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,11 +41,11 @@ public class FlightService {
         if(arrivalAirportOptional.isEmpty()){
             throw new RuntimeException("Not found airport arrival id: " + flightRequest.getArrivalAirportId());
         }
-        Airport foundArrivalAirport = departureAirportOptional.get();
+        Airport foundArrivalAirport = arrivalAirportOptional.get();
 
         Optional<Airline> airlineOptional  = airlineRepository.findById(flightRequest.getAirlineId());
         if(airlineOptional.isEmpty()){
-            throw new RuntimeException("Not found airline id: " + flightRequest.getArrivalAirportId());
+            throw new RuntimeException("Not found airline id: " + flightRequest.getAirlineId());
         }
         Airline foundAirline = airlineOptional.get();
 
@@ -62,7 +62,7 @@ public class FlightService {
         return flightRepository.save(flight);
     }
 
-    public Page<Flight> getFlightsByJoinTables(String city1, String city2, String fareClass, Pageable pageable){
-        return flightRepository.getFlightsByJoinTables(city1, city2,fareClass, pageable);
+    public List<Flight> getFlightsByJoinTables(String city1, String city2, LocalDateTime date1, FareClass fareClass){
+        return flightRepository.getFlightsByJoinTables(city1, city2,date1,fareClass);
     }
 }

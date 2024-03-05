@@ -6,10 +6,10 @@ import com.example.flightbackend.model.FareClass;
 import com.example.flightbackend.model.Flight;
 import com.example.flightbackend.service.FlightService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -18,37 +18,51 @@ import java.util.List;
 public class FlightController {
     private final FlightService flightService;
 
-    @GetMapping("")
+    @GetMapping("/allFlights")
     public List<Flight> getAllFlight(){
         return flightService.getAllFlight();
     }
 
     @GetMapping("/{id}")
     public List<Flight> getFlightsByArrivalAirportId(@PathVariable("id") Long id){
+        System.out.println("okokoko");
         return flightService.findByArrivalAirportId(id);
     }
 
-    @GetMapping("?departure={city1}&arrival={city2}&fareClass={fareClass}&page={pageNumber}&size={pageSize}")
-    public Page<Flight> getFlightsByJoinTables(@PathVariable("city1") String city1,
+
+    //"/find/departure={city1}&arrival={city2}&departureDate={date1}&arrivalDate={date2}&fareClass={fareClass}&page={pageNumber}&size={pageSize}"
+    @GetMapping("/find/arrival={city1}&departure={city2}&departureDate={date1}&fareClass={fareClass}")
+    public List<Flight> getFlightsByJoinTables(@PathVariable("city1") String city1,
                                                @PathVariable("city2") String city2,
-                                               @PathVariable("fareClass") String fareClass,
-                                               @PathVariable("pageNumber") Integer pageNumber,
-                                               @PathVariable("pageSize") Integer pageSize){
+                                               @PathVariable("date1") String date1,
+                                               @PathVariable("fareClass") String fareClass
+//                                               @PathVariable("pageNumber") Integer pageNumber,
+//                                               @PathVariable("pageSize") Integer pageSize)
+    ){
         FareClass fareClassTemp = null;
+        System.out.println(FareClass.Economy.name());
         if(FareClass.Economy.name().equals(fareClass)) {
             fareClassTemp = FareClass.Economy;
         }else if(FareClass.Business.name().equals(fareClass)){
             fareClassTemp = FareClass.Business;
         }else {
             fareClassTemp = FareClass.FirstClass;
-        }
-        return flightService.getFlightsByJoinTables(city1, city2, fareClassTemp.name(), PageRequest.of(pageNumber, pageSize));
+       }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
+
+        System.out.println("departure: " + city1 + " arrival: " +
+                city2 + " departure_date: " + date1);
+
+        return flightService.getFlightsByJoinTables(city1,city2,LocalDateTime.parse(date1, formatter),fareClassTemp);
+
     }
 
     @PostMapping
     public CreateFlightResponse createFlight(@RequestBody CreateFlightRequest createFlightRequest){
-
+        System.out.println(createFlightRequest);
         Flight saveFlight = flightService.createFlight(createFlightRequest);
+        System.out.println(saveFlight);
         CreateFlightResponse flightResponse = CreateFlightResponse.builder()
                 .id(saveFlight.getId())
                 .aircraftType(saveFlight.getAircraftType())
@@ -59,6 +73,7 @@ public class FlightController {
                 .airlineId(saveFlight.getAirline().getId())
                 .arrivalDate(saveFlight.getArrivalDate())
                 .departureDate(saveFlight.getDepartureDate()).build();
+        System.out.println(flightResponse);
         return flightResponse;
     }
 }
