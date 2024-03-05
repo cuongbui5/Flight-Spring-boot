@@ -30,16 +30,16 @@ public class FlightController {
     }
 
 
-    @GetMapping("/find/arrival={id1}&departure={id2}&departureDate={date1}&page={pageNumber}&size={pageSize}")
-    public Page<Flight> getFlightsByJoinTables(@PathVariable("id1") Long id1,
-                                               @PathVariable("id2") Long id2,
-                                               @PathVariable("date1") String date1,
+    @GetMapping("/find/arrivalAirportId={arrivalAirportId}&departureAirportId={departureAirportId}&departureDate={departureDate}&page={pageNumber}&size={pageSize}")
+    public Page<Flight> getFlightsByJoinTables(@PathVariable("arrivalAirportId") Long arrivalAirportId,
+                                               @PathVariable("departureAirportId") Long departureAirportId,
+                                               @PathVariable("departureDate") String departureDate,
                                                @PathVariable("pageNumber") Integer pageNumber,
                                                @PathVariable("pageSize") Integer pageSize)
     {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
 
-        return flightService.getFlightsByJoinTables(id1,id2,LocalDateTime.parse(date1, formatter),pageNumber,pageSize);
+        return flightService.getFlightsByJoinTables(arrivalAirportId,departureAirportId,LocalDateTime.parse(departureDate, formatter),pageNumber,pageSize);
 
     }
 

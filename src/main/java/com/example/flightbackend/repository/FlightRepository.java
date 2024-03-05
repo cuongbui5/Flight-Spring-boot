@@ -16,11 +16,11 @@ public interface FlightRepository extends JpaRepository<Flight,Long> {
     @Query(value = "Select fl from Flight fl " +
             "join Airport aa on fl.arrivalAirport.id = aa.id " +
             "join Airport da on fl.departureAirport.id = da.id " +
-            "where (aa.id =:id1) " +
-            "and (da.id =:id2) " +
-            "and (fl.departureDate =:date1)")
-    Page<Flight> getFlightsByJoinTables(@Param("id1") Long id1,
-                                        @Param("id2") Long id2,
-                                        @Param("date1") LocalDateTime date1,
+            "where (aa.id =:arrivalAirportId) " +
+            "and (da.id =:departureAirportId) " +
+            "and (fl.departureDate =:departureDate)")
+    Page<Flight> getFlightsByJoinTables(@Param("arrivalAirportId") Long arrivalAirportId,
+                                        @Param("departureAirportId") Long departureAirportId,
+                                        @Param("departureDate") LocalDateTime departureDate,
                                         Pageable pageable);
 }

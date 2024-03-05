@@ -63,7 +63,7 @@ public class FlightService {
         return flightRepository.save(flight);
     }
 
-    public Page<Flight> getFlightsByJoinTables(Long id1, Long id2, LocalDateTime date1, Integer pageNumber, Integer pageSize){
-        return flightRepository.getFlightsByJoinTables(id1, id2,date1, PageRequest.of(pageNumber, pageSize));
+    public Page<Flight> getFlightsByJoinTables(Long arrivalAirportId, Long departureAirportId, LocalDateTime departureDate, Integer pageNumber, Integer pageSize){
+        return flightRepository.getFlightsByJoinTables(arrivalAirportId, departureAirportId,departureDate, PageRequest.of(pageNumber, pageSize));
     }
 }
