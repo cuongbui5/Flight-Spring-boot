@@ -36,7 +36,7 @@ public class AuthService {
 
     public MessageResponse register(RegisterRequest registerRequest) {
         if(userRepository.existsByUsername(registerRequest.getUsername())){
-            throw new AlreadyExistException("Username has been registered!");
+            throw new AlreadyExistException("Tài khoản đã được sử dụng!");
         }
         User user= User.builder()
                 .username(registerRequest.getUsername())
@@ -76,7 +76,7 @@ public class AuthService {
 
         }catch (Exception e){
             if(e instanceof BadCredentialsException){
-                throw new WrongPassword("Wrong password!");
+                throw new WrongPassword("Sai mật khẩu!");
             }
 
             throw new RuntimeException(e.getMessage());

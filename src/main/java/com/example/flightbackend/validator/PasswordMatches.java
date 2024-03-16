@@ -7,6 +7,7 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import static com.example.flightbackend.util.Constant.PASSWORD_CONFIRM_WRONG;
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -17,7 +18,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface PasswordMatches {
 
-    String message() default "Passwords don't match";
+    String message() default PASSWORD_CONFIRM_WRONG;
 
     Class<?>[] groups() default {};
 

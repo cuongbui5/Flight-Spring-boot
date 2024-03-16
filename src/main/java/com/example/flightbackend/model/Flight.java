@@ -32,6 +32,7 @@ public class Flight {
     private String aircraftType;
     private Integer duration;
     private Integer stops;
+    private String code;
     @PrePersist
     public void validateDates() {
         if (arrivalDate != null && arrivalDate.isBefore(departureDate)) {

@@ -16,7 +16,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -58,6 +60,30 @@ public class BookingService {
 
         return bookingRepository.save(booking);
 
+
+    }
+    public Booking payment(Long bookingId){
+        Optional<Booking> bookingOptional=bookingRepository.findById(bookingId);
+        if(bookingOptional.isEmpty()){
+            throw new NotFound("Không thể thanh toán do không tìm thấy vé đã đặt!");
+        }
+        Booking booking=bookingOptional.get();
+        booking.setPaymentStatus(true);
+        booking.setBookingCode(UUID.randomUUID().toString().substring(0, 8));
+        return bookingRepository.save(booking);
+
+    }
+
+
+    public List<Booking> getListBooking(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Optional<User> userOptional=userRepository.findByUsername(username);
+        if(userOptional.isEmpty()){
+            throw new NotFound("Người dùng không tồn tại trong hệ thống!");
+        }
+
+        return bookingRepository.findBookingByUserId(userOptional.get().getId());
 
     }
 }

@@ -24,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         Optional<User> userOptional= userRepository.findByUsername(username);
         if(userOptional.isEmpty()){
-            throw new WrongUsername("Invalid username!");
+            throw new WrongUsername("Tài khoản không tồn tại!");
         }
         User user=userOptional.get();
         List<SimpleGrantedAuthority> authorities=new ArrayList<>();
